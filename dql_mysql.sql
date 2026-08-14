@@ -55,13 +55,14 @@ ORDER BY COUNT(*) DESC;
 ### ITEM SIZE
 with cte_avg_size as (select avg(item_size_num) as avg_size, avg(price) as avg_price from amz_clean) select 
 	a.item_size_num,
+    a.item_size,
 	concat(round(count(*)*100 / sum(count(*)) over(), 1), '%') as `Percentage of Orders`,
 	concat(round(sum(price)*100 / sum(sum(price)) over(), 1), '%') as `Percentage of Revenue`,
     CONCAT('₹', round(avg(a.price), 1)) as `Average Revenue`,
 	b.avg_size as `Global Average Size`,
     CONCAT('₹', round(b.avg_price, 1)) as `Global Average Revenue`
 from amz_clean a cross join cte_avg_size b
-group by item_size_num, avg_size
+group by item_size_num, avg_size, item_size
 order by 1 asc;
 
 ### SHIP CITY EDA
@@ -101,10 +102,10 @@ select
 	order_month,
 	count(*) as `How many orders`,
 	count(*)*100 / sum(count(*)) over() as percentage,
-    round(avg(price), 1) as `Average Price`
+    round(avg(price), 1) as `Average Revenue`
 from amz_clean 
 group by order_month 
-order by count(*) desc;
+order by 1 asc;
 
 
 ### ORDER DAY
@@ -112,21 +113,23 @@ select
 	order_day,
 	concat(round(count(*)*100 / sum(count(*)) over(), 1), '%') as `Out of Orders`,
 	concat(round(sum(price)*100 / sum(sum(price)) over(), 1), '%') as `Out of Revenue`,
-    concat('₹', round(avg(price), 1)) as `Average Price`
+    concat('₹', round(avg(price), 1)) as `Average Revenue`
 from amz_clean 
-group by order_day asc;
+group by order_day 
+order by field (order_day, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday') ;
 
 
 ### IS B2B MORE AVG MONEY?? (yes)
-select is_b2b, avg(price) from amz_clean group by is_b2b;
+select is_b2b, avg(price) as `Average Revenue` from amz_clean group by is_b2b;
 
 select is_shipped from amz_clean where is_chnl_amz = 0;
 
 
+### success of shipments
 
-select item_cat, avg(is_chnl_amz) as average_completion from amz_clean group by is_shipped order by average_completion desc;
+select item_cat, avg(is_chnl_amz) as average_completion from amz_clean group by item_cat order by average_completion desc;
 
-### IS AMAZON BETTER AT DELIVERING??? (yes)
+
 select is_fulfil_amz, avg(is_shipped) as average_completion from amz_clean group by is_fulfil_amz order by average_completion desc;
 
 select is_chnl_amz, avg(is_shipped) as average_completion from amz_clean group by is_chnl_amz order by average_completion desc;
