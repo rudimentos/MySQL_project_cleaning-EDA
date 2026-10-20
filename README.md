@@ -1,7 +1,11 @@
-# MySQL Project1 E-commerce dataset
-This is a project in MySQL, featuring two scripts for DML and DQL: Cleaning and Descriptive Statistics respectively. 
+# MySQL and PowerBI project with an E-commerce dataset
+The first part of this project is based in MySQL, featuring two scripts for DML and DQL: Cleaning and Descriptive Statistics respectively. Second part features a dashboard with major KPIs and overview of sales.
 
 The dataset consists of Amazon orders and shipments. It is available at: https://www.kaggle.com/datasets/thedevastator/unlock-profits-with-e-commerce-sales-data/
+
+Final dashboard looks like this:
+
+<img width="1089" height="769" alt="image" src="https://github.com/user-attachments/assets/a87b8146-d30b-480e-944d-6339f61f9287" />
 
 ## SQL Skills included:
 Outside of general DDL, DML, DQL (CREATE, DROP, ALTER, UPDATE, SELECT)
@@ -101,3 +105,8 @@ B2B orders have abount 10% higher average revenue (this could mean higher amount
    <img width="223" height="66" alt="image" src="https://github.com/user-attachments/assets/b50d8a1f-d09e-43c2-b7b8-e4ef7d83d3a7" />
 
 Amazon has 1.5% lower shipment rate compared to non-Amazon merchants. Although the difference is negligible
+
+After this, the data was imported into PowerBI for visualisation purposes
+
+
+
